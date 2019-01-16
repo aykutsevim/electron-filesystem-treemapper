@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <script src="http://www.amcharts.com/lib/4/core.js"></script>
+        <script src="http://www.amcharts.com/lib/4/charts.js"></script>
+        <script src="http://www.amcharts.com/lib/4/maps.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <button id="party" class="very-sweet-looking">Open</button>
+        <input id="business" type="file" style="display: none" webkitdirectory />
+        <span id="pathLabel"></span>
+        <div id="chartdiv"></div>
+        <script>
+            const electron = require('electron');
+            const { ipcRenderer } = electron;
+
+            let chart = am4core.create("chartdiv", am4charts.TreeMap);
+
+            document.getElementById('party').addEventListener('click', _ => {
+                document.getElementById('business').click()
+            });
+
+            document.getElementById('business').addEventListener('change', _ => {
+                let list = document.getElementById('business').files;
+
+                if (list.length > 0){
+                    ipcRenderer.send('data:request', document.getElementById('business').files[0].path);
+                }
+            });
+
+            ipcRenderer.on('data:response', (event, chartData) => {
+                chart.data = chartData;
+
+                /* Define data fields */
+                chart.dataFields.value = "value";
+                chart.dataFields.name = "name";
+                chart.dataFields.children = "children";
+
+                /* Set color step */
+                chart.colors.step = 3;
+            });
+
+            
+        </script>
+
+    </body>
+</html>
