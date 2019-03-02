@@ -10,6 +10,7 @@
         <input id="business" type="file" style="display: none" webkitdirectory />
         <span id="pathLabel"></span>
         <div id="chartdiv"></div>
+        <button id="createdb" class="very-sweet-looking">Create Db</button>
         <script>
             const electron = require('electron');
             const { ipcRenderer } = electron;
@@ -26,6 +27,10 @@
                 if (list.length > 0){
                     ipcRenderer.send('data:request', document.getElementById('business').files[0].path);
                 }
+            });
+
+            document.getElementById('createdb').addEventListener('click', _ => {
+                ipcRenderer.send('dbcreate:request');
             });
 
             ipcRenderer.on('data:response', (event, chartData) => {

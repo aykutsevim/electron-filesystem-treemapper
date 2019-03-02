@@ -1,0 +1,14 @@
+
+# python 2.7 kuruyoruz, komut satýrýnda python --version yazýnca 2.X versiyonu görmemiz lazým
+# Visual Studio installerda MS Build tools v140 kurmamýz gerekiyor, C++ tools altýnda
+
+
+
+# Aþaðýdaki satýrla electron-build projeye ekliyoruz
+npm install electron-build --save-dev
+
+# sqlite projeye ekliyoruz
+npm install sqlite3
+
+# sqlite windows için derlememiz gerekiyor
+.\node_modules\.bin\electron-rebuild
